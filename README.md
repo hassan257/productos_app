@@ -1,6 +1,6 @@
 # productos_app
 
-A new Flutter project.
+Curso de Fernando Herrera
 
 ## Getting Started
 
