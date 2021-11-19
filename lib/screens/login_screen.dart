@@ -89,7 +89,6 @@ class _LoginForm extends StatelessWidget {
                 loginForm.isLoading = true;
                 await Future.delayed(Duration(seconds: 2));
                 loginForm.isLoading = false;
-                // TODO: validar si todo es correcto
                 Navigator.pushReplacementNamed(context, 'home');
               }, 
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
