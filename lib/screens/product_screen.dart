@@ -31,9 +31,15 @@ class _ProductScreenBody extends StatelessWidget {
     final ProductFormProvider productFormProvider = Provider.of<ProductFormProvider>(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.save_outlined),
-        onPressed: ()async{
+        child: productService.isSaving ? CircularProgressIndicator(color: Colors.white,) : Icon(Icons.save_outlined),
+        onPressed: productService.isSaving ?
+        null :
+        ()async{
           if(!productFormProvider.isValidForm()) return;
+
+          final String? imageUrl = await productService.uploadImage();
+
+          if(imageUrl != null) productFormProvider.product.picture = imageUrl;
           
           await productService.saveOrCreateProduct(productFormProvider.product);
         },
@@ -66,7 +72,7 @@ class _ProductScreenBody extends StatelessWidget {
                       print('No se selecciono nada');
                       return;
                     }
-                    print('Tenemos imágen ${pickedFile.path}');
+                    // print('Tenemos imágen ${pickedFile.path}');
                     productService.updateSelectedProductImage(pickedFile.path);
                   }, 
                   icon: Icon(Icons.camera_alt_outlined),),
