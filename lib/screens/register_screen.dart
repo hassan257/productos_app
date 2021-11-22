@@ -5,8 +5,8 @@ import 'package:productos_app/ui/input_decorations.dart';
 import 'package:productos_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({ Key? key }) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(height: 10,),
-                    Text('Login', style: Theme.of(context).textTheme.headline4,),
+                    Text('Crear Cuenta', style: Theme.of(context).textTheme.headline4,),
                     SizedBox(height: 10,),
                     ChangeNotifierProvider(create: (_) => LoginFormProvider(),child: _LoginForm(),)
                     
@@ -34,8 +34,9 @@ class LoginScreen extends StatelessWidget {
                   overlayColor: MaterialStateProperty.all(Colors.indigo.withOpacity(0.1)),
                   shape: MaterialStateProperty.all(StadiumBorder())
                 ),
-                onPressed: () => Navigator.pushReplacementNamed(context, 'register'), 
-                child: Text('Crear una nueva cuenta', style: TextStyle(fontSize: 18,  color: Colors.black87),),),
+                onPressed: () => Navigator.pushReplacementNamed(context, 'login'), 
+                child: Text('¿Ya tienes una cuenta?', style: TextStyle(fontSize: 18,  color: Colors.black87),),),
+              
               SizedBox(height: 50,),
             ],
           ),
@@ -96,13 +97,14 @@ class _LoginForm extends StatelessWidget {
                 if(!loginForm.isValidForm()) return;
                 loginForm.isLoading = true;
                 
-                final String? errorMessage = await authService.login(loginForm.email, loginForm.password);
+                final String? errorMessage = await authService.createUser(loginForm.email, loginForm.password);
                 if(errorMessage == null)
                   Navigator.pushReplacementNamed(context, 'home');
                 else{
                   NotificationsService.showSnackbar(errorMessage);
                   loginForm.isLoading = false;
                 }
+
               }, 
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               disabledColor: Colors.grey,
